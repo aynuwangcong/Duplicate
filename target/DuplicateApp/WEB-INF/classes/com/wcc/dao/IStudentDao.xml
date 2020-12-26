@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wcc.dao.IStudentDao">
+  <insert id="insertStudent">
+      insert into student (student_id,student_name,student_age,student_sex,university,classes_name,telphone) values(#{student_id},#{student_name},#{student_age},#{student_sex},#{university},#{classes_name},#{telphone})
+  </insert>
+    <update id="updateStudent">
+        update student set student_id=#{student_id},student_name=#{student_name},student_age=#{student_age},student_sex=#{student_sex},university=#{university},classes_name=#{classes_name},telphone=#{telphone} where id =#{id}
+    </update>
+    <delete id="deleteStudent" >
+        delete from student where student_id= #{student_id}
+    </delete>
+    <select id="selectStudentById" resultType="Student">
+        select * from student where student_id = #{student_id}
+    </select>
+    <select id="selectAllStudent" resultType="Student">
+        select student_id,student_name,student_age,student_sex,university,classes_name,telphone from student limit 0,6
+    </select>
+    <select id="selectAllStudent2" resultType="Student">
+        select student_id,student_name,student_age,student_sex,university,classes_name,telphone from student limit #{pageStartIndex},6
+    </select>
+
+    <select id="selectAllStudent1" resultType="int">
+        select count(*) from student
+    </select>
+    <select id="selectCurrentPage" resultType="Student">
+        select * from student limit #{pageStartIndex},#{pageSize}
+    </select>
+<select id="selectallstudent">
+      select student.student_id,student.student_name,student.student_age,student.student_sex,student.university,classes.classes_name,student.telphone from student,classes where student.classes_id=classes.classes_id
+</select>
+    <select id="selectCompound1" resultType="Student">
+        select * from student
+        <where>
+            <if test="student.student_id !=null&amp;&amp;student.student_id !=''">
+                student.student_id = #{student.student_id}
+            </if>
+            <if test="student.student_sex != null&amp;&amp;student.student_sex!=''">
+                and student.student_sex = #{student.student_sex}
+            </if>
+            <if test="student.student_age != null&amp;&amp;student.student_age!=''">
+                and student.student_age = #{student.student_age}
+            </if>
+            <if test="student.student_name !=null&amp;&amp;student.student_name !=''">
+                and student.student_name = #{student.student_name}
+            </if>
+            <if test="student.university != null&amp;&amp;student.university!=''">
+                and student.university = #{student.university}
+            </if>
+            <if test="student.classes_name != null&amp;&amp;student.classes_name!=''">
+                and student.classes_name = #{student.classes_name}
+            </if>
+        </where>
+        limit #{pageStartIndex},6
+    </select>
+</mapper>

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.wcc.dao.IClassesDao">
+    <insert id="insertClasses">
+      insert into classes_message (classes_id,classes_name,c_usual_total_score,c_usual_average_score,c_exam_total_score,c_exam_average_score,c_total_total_score,c_total_average_score) values(#{classes_id},#{classes_name},#{c_usual_total_score},#{c_usual_average_score},#{c_exam_total_score},#{c_exam_average_score},#{c_total_total_score},#{c_total_average_score})
+  </insert>
+    <update id="updateClasses">
+        update classes_message set classes_id=#{classes_id},classes_name=#{classes_name},c_usual_total_score=#{c_usual_total_score},c_usual_average_score=#{c_usual_average_score},c_exam_total_score=#{c_exam_total_score},c_exam_average_score=#{c_exam_average_score},c_total_total_score=#{c_total_total_score},c_total_average_score=#{c_total_average_score} where classes_id =#{classes_id}
+    </update>
+    <delete id="deleteClasses" >
+        delete from classes_message where classes_id= #{classes_id}
+    </delete>
+    <select id="selectClassesById" resultType="Classes">
+        select * from classes_message where classes_id = #{classes_id}
+    </select>
+    <select id="selectAllClasses" resultType="Classes">
+        select * from classes_message limit 0,6
+    </select>
+    <select id="selectCompound" resultType="Classes">
+        select * from classes_message
+        <where>
+            <if test="classes_id !=null&amp;&amp;classes_id !=''">
+                classes_id = #{classes_id}
+            </if>
+            <if test="classes_name != null&amp;&amp;classes_name!=''">
+                and classes_name = #{classes_name}
+            </if>
+        </where>
+        limit 0,6
+    </select>
+
+    <select id="selectAllStudent1" resultType="int">
+        select count(*) from classes_message
+    </select>
+    <select id="selectCurrentPage" resultType="Classes">
+        select * from classes_message limit #{pageStartIndex},#{pageSize}
+    </select>
+</mapper>
